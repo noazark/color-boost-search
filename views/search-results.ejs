@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Color Boost Search</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+
+    <style>
+        .search-results {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .color-swatch {
+            vertical-align: middle;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            margin: 0;
+            margin-right: 8px;
+            padding: 0;
+            border-radius: 4px;
+            border: 2px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="column">
+                <h2>Examples</h2>
+                <p>
+                    <% [
+                        'red',
+                        'green',
+                        'blue',
+                        'black',
+                        'white',
+                        'neon',
+                        'candy apple',
+                        'rose',
+                        'wine',
+                        'oak',
+                    ].forEach(function (term) { %>
+                        <a href="/?q=<%= encodeURIComponent(term) %>&boost=<%= colorBoostEnabled ? '1' : '0' %>"><%= term %></a>
+                    <% }) %>
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="one-third column">
+                <h2>Search</h2>
+                <form action="/" method="get">
+                    <label>
+                        term
+                        <br>
+                        <input class="u-full-width" type="search" name="q" value="<%= query %>">
+                    </label>
+                    <label>
+                        <input type="checkbox" name="boost" value="1" <%= colorBoostEnabled ? 'checked' : '' %>>
+                        color boost
+                    </label>
+                    <button type="submit">search</button>
+                </form>
+                <p>
+                    <%= results.length %> result<%= results.length == 1 ? '' : 's' %>
+                    <% if (results && results.length > 0) { %>
+                        <br>
+                        significance: <%= meta.significance ? meta.significance.toFixed(3) : 'n/a' %>
+                        <br>
+                        color boost: <%= meta.factor != null ? meta.factor : 'n/a' %>
+                    <% } %>
+                </p>
+            </div>
+            <div class="two-thirds column">
+                <ul class="search-results">
+                    <% results.forEach(function (result, idx) { %>
+                        <li>
+                            <div
+                                class="color-swatch"
+                                style="background: <%= result.doc.hex %>"
+                                title="<%= result.doc.hex %>">
+                            </div>
+                            <span>
+                                <%= result.doc.name %>
+                            </span>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="row">
+            <div class="column">
+                <p>
+                    <small>source code: <a href="https://github.com/noazark/color-boost-search">noazark/color-boost-search</a></small>
+                    <br>
+                    <small>data source: <a href="https://github.com/meodai/color-names/">meodai/color-names</a></small>
+                </p>
+                <p>
+                    Copyright &copy; 2019 Noah H. Smith
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
