@@ -10,7 +10,7 @@
     "color-convert": "^2.0.1",
     "csv-parse": "^4.6.5",
     "ejs": "^2.7.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "lodash": "^4.17.15",
     "lunr": "^2.3.8",
     "mathjs": "^6.2.3"
